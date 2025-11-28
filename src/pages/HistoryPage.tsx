@@ -1,11 +1,8 @@
-import { 
-  Title, 
-  Table, 
-  Text, 
-  Card,
-} from '@mantine/core';
+import { Title, Table, Text, Card } from '@mantine/core';
 import { useSmokeLogs } from '../hooks/useSmokeLogs';
 import { SmokeLogActions } from '../components/SmokeLogActions';
+import { REASONS } from '../consts/reasons';
+import { formatDate, formatTime } from '../utils/dateFormatter';
 
 export default function HistoryPage() {
   const { data: smokeLogs, isLoading, error } = useSmokeLogs();
@@ -15,24 +12,20 @@ export default function HistoryPage() {
 
   const rows = smokeLogs?.map((smokeLog) => (
     <Table.Tr key={smokeLog.id}>
-      <Table.Td>{new Date(smokeLog.date).toLocaleDateString('ru-RU')}</Table.Td>
-      <Table.Td>{new Date(smokeLog.date).toLocaleTimeString('ru-RU')}</Table.Td>
-      <Table.Td>{smokeLog.count}</Table.Td>
+      <Table.Td>{formatDate(smokeLog.date)}</Table.Td>
+      <Table.Td>{formatTime(smokeLog.date)}</Table.Td>
+      <Table.Td ta="center" fw={"700"}>{smokeLog.count}</Table.Td>
       <Table.Td>
-        <Text tt="capitalize">
-          {smokeLog.reason === 'stress' && 'Стресс'}
-          {smokeLog.reason === 'coffee' && 'С кофе'}
-          {smokeLog.reason === 'boredom' && 'От скуки'}
-          {smokeLog.reason === 'social' && 'В компании'}
-          {smokeLog.reason === 'other' && 'Другое'}
-        </Text>
+          <Text 
+            c={REASONS.find(r => r.value === smokeLog.reason)?.color || 'gray'}
+            fw={500}
+          >
+            {REASONS.find(r => r.value === smokeLog.reason)?.label || smokeLog.reason}
+          </Text> 
       </Table.Td>
       <Table.Td>{smokeLog.notes || '-'}</Table.Td>
       <Table.Td>
-        <SmokeLogActions
-          smokeLog={smokeLog}
-          onEdit={() => {}}
-        />
+        <SmokeLogActions smokeLog={smokeLog} />
       </Table.Td>
     </Table.Tr>
   ));

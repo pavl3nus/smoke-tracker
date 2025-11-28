@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { CreateSmokeLog, SmokeLog } from '../types/smoke';
+import type { CreateSmokeLog, SmokeLog, UpdateSmokeLog } from '../types/smoke';
 
 const API_BASE = 'http://localhost:3001';
 
@@ -9,8 +9,10 @@ export const api = axios.create({
 
 export const smokeLogsApi = {
   getAll: () => api.get<SmokeLog[]>('/smokeLogs'),
-  getById: (id: number) => api.get<SmokeLog>(`/smokeLogs/${id}`),
+  getById: (id: string) => api.get<SmokeLog>(`/smokeLogs/${id}`),
   create: (data: CreateSmokeLog) => api.post<SmokeLog>('/smokeLogs', data),
-  update: (id: number, data: Partial<CreateSmokeLog>) => api.put<SmokeLog>(`/smokeLogs/${id}`, data),
-  delete: (id: number) => api.delete(`/smokeLogs/${id}`),
+  update: (id: string, data: UpdateSmokeLog) => {
+    return api.put<SmokeLog>(`/smokeLogs/${id}`, data);
+  },
+  delete: (id: string) => api.delete(`/smokeLogs/${id}`),
 };

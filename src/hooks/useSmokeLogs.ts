@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { smokeLogsApi } from '../utils/api';
-import type { CreateSmokeLog } from '../types/smoke';
+import type { CreateSmokeLog, UpdateSmokeLog } from '../types/smoke';
 
 export function useSmokeLogs() {
   return useQuery({
@@ -27,7 +27,7 @@ export function useDeleteSmokeLog() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: number) => smokeLogsApi.delete(id),
+    mutationFn: (id: string) => smokeLogsApi.delete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['smokeLogs'] });
     },
@@ -38,7 +38,7 @@ export function useUpdateSmokeLog() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: number; data: Partial<CreateSmokeLog> }) => 
+    mutationFn: ({ id, data }: { id: string; data: UpdateSmokeLog }) => 
       smokeLogsApi.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['smokeLogs'] });
