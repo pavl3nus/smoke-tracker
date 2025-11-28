@@ -1,5 +1,5 @@
 export interface SmokeLog {
-  id: number;
+  id: string;
   date: string;
   count: number;
   reason: string;
@@ -14,7 +14,14 @@ export interface CreateSmokeLog {
   notes?: string;
 }
 
-export type UpdateSmokeLog = Partial<CreateSmokeLog>;
+export type UpdateSmokeLog = {
+  id: string;
+  count: number;
+  reason: string;
+  notes?: string;
+  date: string;      
+  createdAt: string;
+};
 
 export interface SmokeLogFormData {
   date: Date;
