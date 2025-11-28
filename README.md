@@ -15,10 +15,14 @@ SmokeTracker помогает пользователям отслеживать 
 ### Frontend
 - **React 18** + TypeScript
 - **Vite** - сборка и разработка
-- **TanStack Query** (React Query) - управление состоянием и кэширование
+- **TanStack Query** - управление состоянием и кэширование
 - **React Router DOM** - маршрутизация
 - **React Hook Form** + **Yup** - формы и валидация
 - **Mantine UI** - компоненты и стилизация
+- - AppShell - каркас
+  - NavBar, Header, Main - для содержимого страницы
+  - Table для отображения записей
+  - Popover для подтверждения удаления и изменения записи
 - **Recharts** - визуализация данных
 
 ### Backend & Tools
