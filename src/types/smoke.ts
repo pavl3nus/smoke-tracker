@@ -16,10 +16,10 @@ export interface CreateSmokeLog {
 
 export type UpdateSmokeLog = {
   id: string;
+  date: string;   
   count: number;
   reason: string;
-  notes?: string;
-  date: string;      
+  notes?: string;   
   createdAt: string;
 };
 

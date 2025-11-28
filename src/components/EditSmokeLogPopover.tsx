@@ -2,7 +2,7 @@ import { Popover, TextInput, NumberInput, Chip, Button, Stack, Group } from '@ma
 import { useForm } from '@mantine/form';
 import { useUpdateSmokeLog } from '../hooks/useSmokeLogs';
 import type { SmokeLog, UpdateSmokeLog } from '../types/smoke';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { REASONS } from '../consts/reasons'
 
 interface EditSmokeLogPopoverProps {
@@ -28,26 +28,14 @@ export function EditSmokeLogPopover({ smokeLog, children }: EditSmokeLogPopoverP
     },
   });
 
-  useEffect(() => {
-    if (opened) {
-      form.setValues({
-        count: smokeLog.count,
-        reason: smokeLog.reason,
-        notes: smokeLog.notes || '',
-      });
-    }
-  }, [opened, smokeLog]);
-
   const handleSubmit = (values: EditFormValues) => {
-    console.log('Submitting form:', values); // для отладки
-    
     const updateData: UpdateSmokeLog = {
       id: smokeLog.id,
+      date: smokeLog.date,
       count: values.count,
       reason: values.reason,
       notes: values.notes.trim() || undefined,
-      date: smokeLog.date,           // сохраняем оригинальную дату
-      createdAt: smokeLog.createdAt, // сохраняем оригинальную дату создания
+      createdAt: smokeLog.createdAt,
     };
 
     updateMutation.mutate(
