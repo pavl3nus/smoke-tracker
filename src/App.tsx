@@ -13,7 +13,7 @@ function App() {
       <AppShell
         padding="md"
         navbar={{
-          width: 180,
+          width: 200,
           breakpoint: 'sm',
         }}
         header={{
