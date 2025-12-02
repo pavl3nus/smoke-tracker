@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { AppShell, Group, Text, NavLink } from '@mantine/core';
-import { IconHome, IconHistory, IconPlus } from '@tabler/icons-react';
+import { AppShell, Group, Text, NavLink, AspectRatio } from '@mantine/core';
+import { IconHome, IconHistory, IconPlus, IconBulb } from '@tabler/icons-react';
 import HomePage from './pages/HomePage';
 import HistoryPage from './pages/HistoryPage';
 import AddPage from './pages/AddPage';
+import TipsPage from './pages/TipsPage';
+import ThemeSwitcher from './components/ThemeSwitcher';
 
 function App() {
   return (
@@ -11,7 +13,7 @@ function App() {
       <AppShell
         padding="md"
         navbar={{
-          width: 300,
+          width: 180,
           breakpoint: 'sm',
         }}
         header={{
@@ -20,9 +22,16 @@ function App() {
       >
         <AppShell.Header p="xs">
           <Group justify="space-between">
+            <AspectRatio maw={40} darkHidden>
+              <img src='../public/logo.png'/> 
+            </AspectRatio>
+            <AspectRatio maw={40} lightHidden>
+              <img src='../public/logo-dark.png'/> 
+            </AspectRatio>
             <Text size="xl" fw={700}>
               SmokeTracker
             </Text>
+            <ThemeSwitcher/>
           </Group>
         </AppShell.Header>
 
@@ -33,6 +42,12 @@ function App() {
               to="/"
               label="Главная"
               leftSection={<IconHome size="1rem" />}
+            />
+            <NavLink 
+              component={Link}
+              to="/Tips"
+              label="Советы"
+              leftSection={<IconBulb size="1rem" />}
             />
             <NavLink 
               component={Link}
@@ -54,6 +69,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/history" element={<HistoryPage />} />
             <Route path="/add" element={<AddPage />} />
+            <Route path="/Tips" element={<TipsPage />} />
           </Routes>
         </AppShell.Main>
       </AppShell>

@@ -4,6 +4,7 @@ import { useUpdateSmokeLog } from '../hooks/useSmokeLogs';
 import type { SmokeLog, UpdateSmokeLog } from '../types/smoke';
 import { useState } from 'react';
 import { REASONS } from '../consts/reasons'
+import { notify } from '../utils/Notification';
 
 interface EditSmokeLogPopoverProps {
   smokeLog: SmokeLog;
@@ -42,11 +43,11 @@ export function EditSmokeLogPopover({ smokeLog, children }: EditSmokeLogPopoverP
       { id: smokeLog.id, data: updateData },
       {
         onSuccess: () => {
-          console.log('Update successful');
+          notify("green", "Успех!", "Данные обновлены.");
           setOpened(false);
         },
         onError: (error) => {
-          console.error('Update failed:', error);
+          notify("red", "Ошибка" ,error.message);
         }
       }
     );
