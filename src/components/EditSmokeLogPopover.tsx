@@ -5,6 +5,7 @@ import type { SmokeLog, UpdateSmokeLog } from '../types/smoke';
 import { useState } from 'react';
 import { REASONS } from '../consts/reasons'
 import { notify } from '../utils/Notification';
+import { IconExclamationCircleFilled, IconProgressCheck } from '@tabler/icons-react';
 
 interface EditSmokeLogPopoverProps {
   smokeLog: SmokeLog;
@@ -43,11 +44,11 @@ export function EditSmokeLogPopover({ smokeLog, children }: EditSmokeLogPopoverP
       { id: smokeLog.id, data: updateData },
       {
         onSuccess: () => {
-          notify("green", "Успех!", "Данные обновлены.");
+          notify("green", "Успех!", "Данные обновлены.", <IconProgressCheck/>);
           setOpened(false);
         },
         onError: (error) => {
-          notify("red", "Ошибка" ,error.message);
+          notify("red", "Ошибка" ,error.message, <IconExclamationCircleFilled/>);
         }
       }
     );

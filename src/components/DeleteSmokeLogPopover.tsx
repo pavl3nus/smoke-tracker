@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { notify } from '../utils/Notification';
 import { notifications } from '@mantine/notifications';
 import { formatDate } from '../utils/dateFormatter';
+import { IconArrowBackUp, IconTrash } from '@tabler/icons-react';
 
 interface DeleteSmokeLogPopoverProps {
   smokeLog: SmokeLog;
@@ -19,7 +20,7 @@ export function DeleteSmokeLogPopover({ smokeLog, children }: DeleteSmokeLogPopo
   const handleRevertDeletion = () => {
     restoreMutation.mutate(smokeLog);
     notifications.hide(smokeLog.id);
-    notify('green', 'Успех', `Запись от ${formatDate(smokeLog.date)} восстановлена`);
+    notify('green', 'Успех', `Запись от ${formatDate(smokeLog.date)} восстановлена`, <IconArrowBackUp/>);
   };
 
   const handleConfirmDelete = () => {
@@ -28,6 +29,8 @@ export function DeleteSmokeLogPopover({ smokeLog, children }: DeleteSmokeLogPopo
         setOpened(false);
         notifications.show({
           id: smokeLog.id,
+          withCloseButton: false,
+          icon: <IconTrash/>,
           withBorder: true,
           radius: "lg",
           autoClose: 7000,
