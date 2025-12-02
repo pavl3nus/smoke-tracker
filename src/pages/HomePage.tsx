@@ -1,5 +1,6 @@
 import { Title, Text, Card, Group, RingProgress, Grid } from '@mantine/core';
 import { useSmokeLogs } from '../hooks/useSmokeLogs';
+import { RandomTipCard } from '../components/RandomTipCard';
 
 export default function HomePage() {
   const { data: smokeLogs } = useSmokeLogs();
@@ -16,8 +17,8 @@ export default function HomePage() {
   return (
     <div>
       <Title order={1} mb="md">Дневник курильщика</Title>
-      
-      <Grid>
+
+      <Grid grow>
         <Grid.Col span={6}>
           <Card shadow="sm" p="lg">
             <Group justify="apart">
@@ -26,7 +27,7 @@ export default function HomePage() {
                 <Text size="xl" fw={700}>
                   {todayCount} сигарет
                 </Text>
-                <Text color="dimmed">Цель: не более {dailyLimit} в день</Text>
+                <Text>Цель: не более {dailyLimit} в день</Text>
               </div>
               <RingProgress
                 size={80}
@@ -48,6 +49,10 @@ export default function HomePage() {
             <Text mt="sm">Всего записей: {smokeLogs?.length || 0}</Text>
             <Text>Всего сигарет: {smokeLogs?.reduce((sum, log) => sum + log.count, 0) || 0}</Text>
           </Card>
+        </Grid.Col>
+
+        <Grid.Col span={12}>
+          <RandomTipCard />
         </Grid.Col>
       </Grid>
     </div>

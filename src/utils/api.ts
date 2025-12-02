@@ -1,5 +1,6 @@
 import axios from 'axios';
 import type { CreateSmokeLog, SmokeLog, UpdateSmokeLog } from '../types/smoke';
+import type { Tip } from '../types/tip';
 
 const API_BASE = 'http://localhost:3001';
 
@@ -15,4 +16,8 @@ export const smokeLogsApi = {
     return api.put<SmokeLog>(`/smokeLogs/${id}`, data);
   },
   delete: (id: string) => api.delete(`/smokeLogs/${id}`),
+};
+
+export const tipsApi = {
+  getAll: () => api.get<Tip[]>('/tips'),
 };

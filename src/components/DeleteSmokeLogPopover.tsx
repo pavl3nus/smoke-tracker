@@ -1,7 +1,10 @@
 import { Popover, Button, Text, Group } from '@mantine/core';
-import { useDeleteSmokeLog } from '../hooks/useSmokeLogs';
+import { useCreateSmokeLog, useDeleteSmokeLog} from '../hooks/useSmokeLogs';
 import type { SmokeLog } from '../types/smoke';
 import { useState } from 'react';
+import { notify } from '../utils/Notification';
+import { notifications } from '@mantine/notifications';
+import { formatDate } from '../utils/dateFormatter';
 
 interface DeleteSmokeLogPopoverProps {
   smokeLog: SmokeLog;
@@ -11,11 +14,28 @@ interface DeleteSmokeLogPopoverProps {
 export function DeleteSmokeLogPopover({ smokeLog, children }: DeleteSmokeLogPopoverProps) {
   const [opened, setOpened] = useState(false);
   const deleteMutation = useDeleteSmokeLog();
+  const restoreMutation = useCreateSmokeLog();
+
+  const handleRevertDeletion = () => {
+    restoreMutation.mutate(smokeLog);
+    notifications.hide(smokeLog.id);
+    notify('green', 'Успех', `Запись от ${formatDate(smokeLog.date)} восстановлена`);
+  };
 
   const handleConfirmDelete = () => {
     deleteMutation.mutate(smokeLog.id, {
       onSuccess: () => {
         setOpened(false);
+        notifications.show({
+          id: smokeLog.id,
+          withBorder: true,
+          radius: "lg",
+          autoClose: 7000,
+          title: "Успешно удалено",
+          message: "Нажми на уведомление, чтобы восстановить запись.",
+          color: "red",
+          onClick: () => handleRevertDeletion()
+    });
       },
     });
   };
