@@ -25,11 +25,11 @@ export default function HomePage() {
   const progress = Math.min((todayCount / dailyLimit) * 100, 100);
 
   return (
-    <Container size="lg">
+    <Container size="lg" ml="xl">
       <Title order={1} mb="md">
         Дневник курильщика
       </Title>
-      <Grid grow m="xl" justify="space-between" columns={8}>
+      <Grid justify="space-between" columns={8}>
         <Grid.Col span={2.6}>
           <Card shadow="sm" p="lg" withBorder>
             <Group>
