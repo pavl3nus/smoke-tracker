@@ -7,13 +7,13 @@ import {
   AspectRatio,
   Burger,
 } from "@mantine/core";
-import { IconHome, IconHistory, IconPlus, IconBulb } from "@tabler/icons-react";
+import { IconHome, IconHistory, IconPlus, IconGraph } from "@tabler/icons-react";
 import HomePage from "./pages/HomePage";
 import HistoryPage from "./pages/HistoryPage";
 import AddPage from "./pages/AddPage";
-import TipsPage from "./pages/TipsPage";
 import ThemeSwitcher from "./components/ThemeSwitcher";
 import { useDisclosure } from "@mantine/hooks";
+import GraphicsPage from "./pages/GraphicsPage";
 
 function App() {
   const [opened, { toggle: toggleDesktop }] = useDisclosure(true);
@@ -64,9 +64,9 @@ function App() {
             />
             <NavLink 
               component={Link}
-              to="/Tips"
-              label="Советы"
-              leftSection={<IconBulb size="1rem" />}
+              to="/Graphics"
+              label="График"
+              leftSection={<IconGraph size="1rem" />}
             />
             <NavLink
               component={Link}
@@ -88,7 +88,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/history" element={<HistoryPage />} />
             <Route path="/add" element={<AddPage />} />
-            <Route path="/Tips" element={<TipsPage />} />
+            <Route path="/Graphics" element={<GraphicsPage />} />
           </Routes>
         </AppShell.Main>
       </AppShell>
