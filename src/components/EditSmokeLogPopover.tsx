@@ -1,10 +1,22 @@
-import { Popover, TextInput, NumberInput, Chip, Button, Stack, Group } from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { useUpdateSmokeLog } from '../hooks/useSmokeLogs';
-import type { SmokeLog, UpdateSmokeLog } from '../types/smoke';
-import { useState } from 'react';
-import { REASONS } from '../consts/reasons'
-import { notify } from '../utils/Notification';
+import {
+  Popover,
+  TextInput,
+  NumberInput,
+  Chip,
+  Button,
+  Stack,
+  Group,
+} from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { useUpdateSmokeLog } from "../hooks/useSmokeLogs";
+import type { SmokeLog, UpdateSmokeLog } from "../types/smoke";
+import { useState } from "react";
+import { REASONS } from "../consts/reasons";
+import { notify } from "../utils/Notification";
+import {
+  IconExclamationCircleFilled,
+  IconProgressCheck,
+} from "@tabler/icons-react";
 
 interface EditSmokeLogPopoverProps {
   smokeLog: SmokeLog;
@@ -17,7 +29,10 @@ interface EditFormValues {
   notes: string;
 }
 
-export function EditSmokeLogPopover({ smokeLog, children }: EditSmokeLogPopoverProps) {
+export function EditSmokeLogPopover({
+  smokeLog,
+  children,
+}: EditSmokeLogPopoverProps) {
   const [opened, setOpened] = useState(false);
   const updateMutation = useUpdateSmokeLog();
 
@@ -25,7 +40,7 @@ export function EditSmokeLogPopover({ smokeLog, children }: EditSmokeLogPopoverP
     initialValues: {
       count: smokeLog.count,
       reason: smokeLog.reason,
-      notes: smokeLog.notes || '',
+      notes: smokeLog.notes || "",
     },
   });
 
@@ -43,12 +58,17 @@ export function EditSmokeLogPopover({ smokeLog, children }: EditSmokeLogPopoverP
       { id: smokeLog.id, data: updateData },
       {
         onSuccess: () => {
-          notify("green", "Успех!", "Данные обновлены.");
+          notify("green", "Успех!", "Данные обновлены.", <IconProgressCheck />);
           setOpened(false);
         },
         onError: (error) => {
-          notify("red", "Ошибка" ,error.message);
-        }
+          notify(
+            "red",
+            "Ошибка",
+            error.message,
+            <IconExclamationCircleFilled />
+          );
+        },
       }
     );
   };
@@ -79,59 +99,63 @@ export function EditSmokeLogPopover({ smokeLog, children }: EditSmokeLogPopoverP
             <NumberInput
               label="Количество сигарет"
               min={1}
-              max={10}
-              {...form.getInputProps('count')}
+              max={20}
+              {...form.getInputProps("count")}
               size="xs"
             />
 
             <div>
-                <label style={{ 
-                    display: 'block', 
-                    fontSize: 'var(--mantine-font-size-xs)',
-                    fontWeight: 500,
-                    marginBottom: '8px'
-                    }}>
-                    Причина
-                </label>
-                <Chip.Group
+              <label
+                style={{
+                  display: "block",
+                  fontSize: "var(--mantine-font-size-xs)",
+                  fontWeight: 500,
+                  marginBottom: "8px",
+                }}
+              >
+                Причина
+              </label>
+              <Chip.Group
                 value={form.values.reason}
-                onChange={(value) => form.setFieldValue('reason', value.toString())}
-                >
+                onChange={(value) =>
+                  form.setFieldValue("reason", value.toString())
+                }
+              >
                 <Group gap="xs" wrap="wrap">
-                    {REASONS.map((reason) => (
+                  {REASONS.map((reason) => (
                     <Chip
-                        key={reason.value}
-                        value={reason.value}
-                        color={reason.color}
-                        size="xs"
-                        variant="filled"
+                      key={reason.value}
+                      value={reason.value}
+                      color={reason.color}
+                      size="xs"
+                      variant="filled"
                     >
-                    {reason.label}
+                      {reason.label}
                     </Chip>
-                    ))}
-                    </Group>
-                </Chip.Group>
+                  ))}
+                </Group>
+              </Chip.Group>
             </div>
 
             <TextInput
               label="Заметки"
               placeholder="Дополнительные заметки..."
-              {...form.getInputProps('notes')}
+              {...form.getInputProps("notes")}
               size="xs"
             />
 
             <Group justify="flex-end" gap="xs">
-              <Button 
-                variant="subtle" 
-                size="xs" 
+              <Button
+                variant="subtle"
+                size="xs"
                 type="button"
                 onClick={handleClose}
                 disabled={updateMutation.isPending}
               >
                 Отмена
               </Button>
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 size="xs"
                 loading={updateMutation.isPending}
               >

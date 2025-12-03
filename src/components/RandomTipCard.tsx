@@ -1,8 +1,16 @@
-import { Card, Text, Group, Badge, Stack, ActionIcon, Loader } from '@mantine/core';
-import { IconRefresh } from '@tabler/icons-react';
-import { useRandomTip } from '../hooks/useRandomTip';
-import { useState } from 'react';
-import { CATEGORY_CONFIG } from '../consts/catetegories';
+import {
+  Card,
+  Text,
+  Group,
+  Badge,
+  Stack,
+  ActionIcon,
+  Loader,
+} from "@mantine/core";
+import { IconRefresh } from "@tabler/icons-react";
+import { useRandomTip } from "../hooks/useTips";
+import { useState } from "react";
+import { CATEGORY_CONFIG } from "../consts/catetegories";
 
 export function RandomTipCard() {
   const { tip, isLoading, isFetching, refreshTip } = useRandomTip();
@@ -37,21 +45,18 @@ export function RandomTipCard() {
   const loading = isFetching || isRefreshing;
 
   return (
-    <Card shadow="sm" padding="lg" withBorder radius="md">
+    <Card shadow="lg" padding="lg" withBorder radius="md">
       <Stack gap="md">
         <Group justify="space-between" align="flex-start">
           <Group gap="xs">
-            <Badge 
-              color={category.color}
-              variant="light"
-              size="lg"
-            >
+            <Badge color={category.color} variant="light" size="lg">
               {category.label}
             </Badge>
           </Group>
-          
-          <ActionIcon 
-            variant="subtle"
+
+          <ActionIcon
+            variant="light"
+            color="gray"
             onClick={handleRefresh}
             loading={loading}
             title="Новый случайный совет"
@@ -60,7 +65,7 @@ export function RandomTipCard() {
           </ActionIcon>
         </Group>
 
-        <Text size="xl" fw={600} style={{ lineHeight: 1.4, minHeight: '60px' }}>
+        <Text size="xl" fw={600}>
           {tip.text}
         </Text>
 
