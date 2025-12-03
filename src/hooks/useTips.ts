@@ -1,22 +1,22 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { tipsApi } from '../utils/api';
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { tipsApi } from "../utils/api";
 
 export function useRandomTip() {
   const queryClient = useQueryClient();
 
   const query = useQuery({
-    queryKey: ['randomTip'],
+    queryKey: ["randomTip"],
     queryFn: async () => {
       const response = await tipsApi.getAll();
       const tips = response.data;
-      
+
       if (!tips || tips.length === 0) {
         return null;
       }
-      
+
       const randomIndex = Math.floor(Math.random() * tips.length);
       const randomTip = tips[randomIndex];
-      
+
       return randomTip;
     },
 
@@ -24,7 +24,7 @@ export function useRandomTip() {
   });
 
   const refreshTip = () => {
-    queryClient.invalidateQueries({ queryKey: ['randomTip'] });
+    queryClient.invalidateQueries({ queryKey: ["randomTip"] });
   };
 
   return {
@@ -37,7 +37,7 @@ export function useRandomTip() {
 
 export function useAllTips() {
   return useQuery({
-    queryKey: ['allTips'],
+    queryKey: ["allTips"],
     queryFn: async () => {
       const response = await tipsApi.getAll();
       return response.data;
