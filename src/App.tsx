@@ -1,20 +1,31 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { AppShell, Group, Text, NavLink, AspectRatio } from '@mantine/core';
-import { IconHome, IconHistory, IconPlus, IconBulb } from '@tabler/icons-react';
-import HomePage from './pages/HomePage';
-import HistoryPage from './pages/HistoryPage';
-import AddPage from './pages/AddPage';
-import TipsPage from './pages/TipsPage';
-import ThemeSwitcher from './components/ThemeSwitcher';
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  AppShell,
+  Group,
+  Text,
+  NavLink,
+  AspectRatio,
+  Burger,
+} from "@mantine/core";
+import { IconHome, IconHistory, IconPlus, IconBulb } from "@tabler/icons-react";
+import HomePage from "./pages/HomePage";
+import HistoryPage from "./pages/HistoryPage";
+import AddPage from "./pages/AddPage";
+import TipsPage from "./pages/TipsPage";
+import ThemeSwitcher from "./components/ThemeSwitcher";
+import { useDisclosure } from "@mantine/hooks";
 
 function App() {
+  const [opened, { toggle: toggleDesktop }] = useDisclosure(true);
+
   return (
     <Router>
       <AppShell
         padding="md"
         navbar={{
           width: 200,
-          breakpoint: 'sm',
+          breakpoint: "sm",
+          collapsed: { desktop: !opened },
         }}
         header={{
           height: 60,
@@ -22,22 +33,30 @@ function App() {
       >
         <AppShell.Header p="xs">
           <Group justify="space-between">
-            <AspectRatio maw={40} darkHidden>
-              <img src='../public/logo.png'/> 
-            </AspectRatio>
-            <AspectRatio maw={40} lightHidden>
-              <img src='../public/logo-dark.png'/> 
-            </AspectRatio>
-            <Text size="xl" fw={700}>
-              SmokeTracker
-            </Text>
-            <ThemeSwitcher/>
+            <Group align="center">
+              <Burger
+                opened={opened}
+                onClick={toggleDesktop}
+                visibleFrom="sm"
+                size="sm"
+              />
+              <AspectRatio maw={35} darkHidden>
+                <img src="../public/logo.png" />
+              </AspectRatio>
+              <AspectRatio maw={35} lightHidden>
+                <img src="../public/logo-dark.png" />
+              </AspectRatio>
+              <Text size="xl" fw={700}>
+                SmokeTracker
+              </Text>
+            </Group>
+            <ThemeSwitcher />
           </Group>
         </AppShell.Header>
 
         <AppShell.Navbar p="xs">
           <AppShell.Section grow mt="md">
-            <NavLink 
+            <NavLink
               component={Link}
               to="/"
               label="Главная"
@@ -49,13 +68,13 @@ function App() {
               label="Советы"
               leftSection={<IconBulb size="1rem" />}
             />
-            <NavLink 
+            <NavLink
               component={Link}
               to="/history"
               label="История"
               leftSection={<IconHistory size="1rem" />}
             />
-            <NavLink 
+            <NavLink
               component={Link}
               to="/add"
               label="Добавить запись"
